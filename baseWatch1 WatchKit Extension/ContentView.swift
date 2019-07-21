@@ -7,68 +7,54 @@
 //
 
 import SwiftUI
+import Combine
+
 
 struct ContentView : View {
     
-
-    @State var nowDate: Date = Date()
-    @State var count: Int = 0
-    
-    let referenceDate: Date
-    let calendar = Calendar(identifier: .gregorian)
-    
-    var timer: Timer {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in
-            self.nowDate = Date()
-        }
-    }
-    
+    @State private var now = Date()
+    @State private var refNow = Date().addingTimeInterval(5.0)
     
     var body: some View {
-    
-        VStack {
-            Text("Hello World")
-            if self.nowDate <= self.referenceDate {
-                Text(countDownString(from: referenceDate, until: nowDate))
-                    .font(.body)
-                    .onAppear(perform: {
-                        let _ = self.timer
-                        
-                    })
-            }
-            
-            else {
-                Text("DONE" )
-                    .onAppear(perform: {
-                        WKInterfaceDevice.current().play(.stop)
-                    })
-            }
         
+        VStack {
+            Text(getRecipe())
+            CurrentDateView(now: $now, refNow: $refNow)
         }
         
     }
-    func countDownString(from date: Date, until nowDate: Date) -> String {
-            let components = calendar.dateComponents([.day, .hour, .minute, .second],
-                                                     from: nowDate,
-                                                     to: date)
-            /*
-                WKInterfaceDevice.current().play(.stop)
-                case Notification 
-                 case DirectionUp 
-                 case DirectionDown 
-                 case Success 
-                 case Failure 
-                 case Retry 
-                 case Start 
-                 case Stop 
-                 case Click 
-            */
-            return String(format: "%02dm:%02ds",
-                                      //components.day ?? 00,
-                                      //components.hour ?? 00,
-                                      components.minute ?? 00,
-                                      components.second ?? 00)
+    
+    func getRecipe() -> String {
+        let recipe = BuildRecipe(name: "pour over 1", coffeeWeight: 26.6)
+        let name = recipe.name
+        let coffee = recipe.coffeeWeight
+        let output = name + ": " + "\(coffee)"
         
+        return output
+    }
+    
+}
+
+struct StepView: View {
+    
+    @Binding var currStep: Int
+    
+    var body: some View {
+        VStack {
+            Text("\(currStep)")
+        }
+    }
+    
+    func getRecipeSteps() -> String {
+            let recipe = BuildRecipe(name: "pour over 1", coffeeWeight: 26.6)
+            
+            let steps = recipe.steps
+            let desc = steps[currStep].desc
+            let water = steps[currStep].water.rounded()
+            
+            let row0 = desc + " " + "\(water)" + "\(currStep)"
+            
+            return row0
         }
     
 }
@@ -76,7 +62,8 @@ struct ContentView : View {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        ContentView(referenceDate: Date().addingTimeInterval(11.0))
+        //ContentView(referenceDate: Date().addingTimeInterval(11.0))
+        ContentView()
     }
 }
 #endif

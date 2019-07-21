@@ -12,6 +12,7 @@ import SwiftUI
 
 class HostingController : WKHostingController<ContentView> {
     override var body: ContentView {
-        return ContentView(referenceDate: Date().addingTimeInterval(11.0))
+        //return ContentView(referenceDate: Date().addingTimeInterval(11.0))
+        return ContentView()
     }
 }
