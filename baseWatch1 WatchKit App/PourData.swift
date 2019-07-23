@@ -8,28 +8,29 @@
 
 import Foundation
 
+struct Step {
+    var desc: String
+    var duration: Int
+    var water: Double
+}
+
+
 struct Recipe {
     let name: String
     var coffeeWeight: Double
     var steps: [Step]
 }
 
-struct Step {
-    var desc: String
-    var duration: Double
-    var water: Double
-}
-
 func BuildRecipe(name: String, coffeeWeight: Double) -> Recipe {
-    let duration = 180.0 * coffeeWeight / 21.0
-    let qsteps = duration / 30.0
+    let duration = Int(180.0 * coffeeWeight / 21.0)
+    let qsteps = duration / 30
     
-    let water = coffeeWeight * 15.5 / qsteps
+    let water = coffeeWeight * 15.5 / Double(qsteps)
     
-    var step = Step(desc: "Blume", duration: 30.0, water: water)
+    var step = Step(desc: "Blume", duration: 30, water: water)
     var steps = [step]
     
-    step = Step(desc: "Pour", duration: 30.0, water: water)
+    step = Step(desc: "Pour", duration: 30, water: water)
     steps.append(step)
     
     

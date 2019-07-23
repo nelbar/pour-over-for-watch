@@ -13,6 +13,7 @@ import Combine
 struct CurrentDateView : View {
     @Binding var now: Date
     @Binding var refNow: Date
+    @Binding var currStep: Int
     
     let calendar = Calendar(identifier: .gregorian)
     let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
@@ -26,6 +27,7 @@ struct CurrentDateView : View {
                 Text("DONE" )
                     .onAppear(perform: {
                         WKInterfaceDevice.current().play(.stop)
+                        
                     })
             }
             
