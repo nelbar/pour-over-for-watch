@@ -10,15 +10,26 @@ import Foundation
 import Combine
 import SwiftUI
 
+class CurrStep: BindableObject {
+    var count = 0 {
+        didSet {
+                self.willChange.send()
+            }
+    }
+    
+    var willChange = PassthroughSubject<Void, Never>()
+    
+}
+
 struct StepView: View {
     @Binding var recipe: Recipe
-    @Binding var currStep: Int
+    @ObjectBinding var currStep: CurrStep
     
     var body: some View {
             VStack {
-                Text(recipe.steps[currStep].desc)
-                Text( String(recipe.steps[currStep].duration) )
-                doubleToString(number: recipe.steps[currStep].water)
+                Text(recipe.steps[currStep.count].desc)
+                Text( String(recipe.steps[currStep.count].duration) )
+                doubleToString(number: recipe.steps[currStep.count].water)
             }
         }
           

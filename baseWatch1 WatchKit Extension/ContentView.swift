@@ -16,27 +16,19 @@ struct ContentView : View {
     @State private var now = Date()
     @State private var refNow = Date().addingTimeInterval(5.0)
     @State private var recipe = BuildRecipe(name: "pour over 1", coffeeWeight: 26.6)
-    @State private var currStep: Int = 0
+    @ObjectBinding var currStep: CurrStep
     
     var body: some View {
         
-    VStack {
-            //Text(getRecipe())
-        CurrentDateView(now: $now, refNow: $refNow, currStep: $currStep)
+        VStack {
             
-            StepView(recipe: $recipe, currStep: $currStep)
+            CurrentDateView(now: $now, refNow: $refNow, currStep: currStep)
+                
+            StepView(recipe: $recipe, currStep: currStep)
         }
         
     }
     
-    func getRecipe() -> String {
-        //let recipe = BuildRecipe(name: "pour over 1", coffeeWeight: 26.6)
-        let name = recipe.name
-        let coffee = recipe.coffeeWeight
-        let output = name + ": " + "\(coffee)"
-        
-        return output
-    }
     
 }
 
@@ -45,7 +37,7 @@ struct ContentView : View {
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
         //ContentView(referenceDate: Date().addingTimeInterval(11.0))
-        ContentView()
+        ContentView(currStep: CurrStep())
     }
 }
 #endif
