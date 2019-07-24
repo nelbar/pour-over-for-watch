@@ -26,7 +26,8 @@ struct CurrentDateView : View {
             else {
                 Text("DONE" )
                     .onAppear(perform: {
-                        WKInterfaceDevice.current().play(.stop)
+                        self.endStep()
+                        //WKInterfaceDevice.current().play(.stop)
                     })
                 //.onReceive(CurrStep) {count in self.currStep.count = count }
                 //.onReceive(currStep) {_ in self.currStep.count += 1 }
@@ -36,6 +37,10 @@ struct CurrentDateView : View {
         }
     }
     
+    func endStep() {
+        WKInterfaceDevice.current().play(.stop)
+        self.currStep.count += 1
+    }
     
     func countDownString(beg: Date, end: Date) -> Text {
         if end > beg {
