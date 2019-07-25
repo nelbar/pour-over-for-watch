@@ -11,18 +11,20 @@ import SwiftUI
 import Combine
 
 struct CurrentDateView : View {
-    @Binding var now: Date
-    @Binding var refNow: Date
+    //@Binding var now: Date
+    //@Binding var refNow: Date
     @Binding var recipe: Recipe
     @ObjectBinding var currStep: CurrStep
+    @ObjectBinding var timerData: TimerData
+    
     
     let calendar = Calendar(identifier: .gregorian)
     let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
 
     var body: some View {
         VStack {
-            if refNow > now {
-                countDownString(beg: now, end: refNow).onReceive(timer) {_ in self.now = Date() }
+            if timerData.refNow > timerData.now {
+                countDownString(beg: timerData.now, end: timerData.refNow).onReceive(timer) {_ in self.timerData.now = Date() }
             }
             else {
                 Text("DONE" )
@@ -38,8 +40,8 @@ struct CurrentDateView : View {
     func endStep() {
         WKInterfaceDevice.current().play(.stop)
         self.currStep.count += 1
-        self.now = Date()
-        self.refNow = now.addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
+        self.timerData.now = Date()
+        self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
     }
     
     func countDownString(beg: Date, end: Date) -> Text {

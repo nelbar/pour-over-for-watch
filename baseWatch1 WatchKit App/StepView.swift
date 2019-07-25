@@ -21,17 +21,34 @@ class CurrStep: BindableObject {
     
 }
 
+class TimerData: BindableObject {
+    var now = Date()
+    {
+            didSet {
+                    self.willChange.send()
+                }
+        }
+    var refNow = Date().addingTimeInterval(6.0) {
+                didSet {
+                        self.willChange.send()
+                    }
+            }
+    
+    var willChange = PassthroughSubject<Void, Never>()
+}
+
 struct StepView: View {
     @Binding var recipe: Recipe
-    @Binding var now: Date
-    @Binding var refNow: Date
+    //@Binding var now: Date
+    //@Binding var refNow: Date
     
     @ObjectBinding var currStep: CurrStep
+    @ObjectBinding var timerData: TimerData
     
     var body: some View {
             VStack {
 
-                CurrentDateView(now: $now, refNow: $refNow, recipe: $recipe, currStep: currStep)
+                CurrentDateView(recipe: $recipe, currStep: currStep, timerData: timerData)
                 Text(recipe.steps[currStep.count].desc)
                 Text( String(recipe.steps[currStep.count].duration) )
                 doubleToString(number: recipe.steps[currStep.count].water)
