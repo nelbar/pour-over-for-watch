@@ -13,6 +13,7 @@ import Combine
 struct CurrentDateView : View {
     @Binding var now: Date
     @Binding var refNow: Date
+    @Binding var recipe: Recipe
     @ObjectBinding var currStep: CurrStep
     
     let calendar = Calendar(identifier: .gregorian)
@@ -27,12 +28,9 @@ struct CurrentDateView : View {
                 Text("DONE" )
                     .onAppear(perform: {
                         self.endStep()
-                        //WKInterfaceDevice.current().play(.stop)
+                        
                     })
-                //.onReceive(CurrStep) {count in self.currStep.count = count }
-                //.onReceive(currStep) {_ in self.currStep.count += 1 }
-                //.onReceive(timer) {_ in self.currStep.count = 1 }
-            
+                
             }
         }
     }
@@ -40,6 +38,8 @@ struct CurrentDateView : View {
     func endStep() {
         WKInterfaceDevice.current().play(.stop)
         self.currStep.count += 1
+        self.now = Date()
+        self.refNow = now.addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
     }
     
     func countDownString(beg: Date, end: Date) -> Text {

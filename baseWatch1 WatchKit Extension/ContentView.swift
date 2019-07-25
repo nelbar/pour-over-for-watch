@@ -12,19 +12,17 @@ import Combine
 
 
 struct ContentView : View {
-    
     @State private var now = Date()
     @State private var refNow = Date().addingTimeInterval(5.0)
+    
     @State private var recipe = BuildRecipe(name: "pour over 1", coffeeWeight: 26.6)
     @ObjectBinding var currStep: CurrStep
     
     var body: some View {
         
         VStack {
-            
-            CurrentDateView(now: $now, refNow: $refNow, currStep: currStep)
-                
-            StepView(recipe: $recipe, currStep: currStep)
+        
+            StepView(recipe: $recipe, now: $now, refNow: $refNow, currStep: currStep)
         }
         
     }

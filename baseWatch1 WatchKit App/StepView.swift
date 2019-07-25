@@ -23,10 +23,15 @@ class CurrStep: BindableObject {
 
 struct StepView: View {
     @Binding var recipe: Recipe
+    @Binding var now: Date
+    @Binding var refNow: Date
+    
     @ObjectBinding var currStep: CurrStep
     
     var body: some View {
             VStack {
+
+                CurrentDateView(now: $now, refNow: $refNow, recipe: $recipe, currStep: currStep)
                 Text(recipe.steps[currStep.count].desc)
                 Text( String(recipe.steps[currStep.count].duration) )
                 doubleToString(number: recipe.steps[currStep.count].water)
