@@ -22,6 +22,11 @@ struct ContentView : View {
     var body: some View {
         
         VStack {
+            Text(recipe.name)
+            
+            Text("Coffee: " + String(recipe.coffeeWeight) + "g" )
+            Text("Water: " + String(recipe.coffeeWeight * 15.5 ) + "g" )
+            
         
             StepView(recipe: $recipe, currStep: currStep, timerData: timerData)
         }

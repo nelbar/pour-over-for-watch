@@ -26,13 +26,23 @@ func BuildRecipe(name: String, coffeeWeight: Double) -> Recipe {
     let duration = Int(180.0 * coffeeWeight / 21.0)
     let qsteps = duration / 30
     
-    let water = coffeeWeight * 15.5 / Double(qsteps)
+    let waterIncrement = coffeeWeight * 15.5 / Double(qsteps)
     
-    var step = Step(desc: "Blume", duration: 30, water: water)
+    var currWaterTotal = waterIncrement
+    
+    var step = Step(desc: "Blume", duration: 30, water: currWaterTotal)
     var steps = [step]
     
-    step = Step(desc: "Pour", duration: 30, water: water)
+    for _ in 1...qsteps-2 {
+        currWaterTotal += waterIncrement
+        step = Step(desc: "Pour", duration: 3, water: currWaterTotal)
+        steps.append(step)
+    }
+    
+    currWaterTotal = coffeeWeight * 15.5
+    step = Step(desc: "Pour", duration: 3, water: currWaterTotal)
     steps.append(step)
+    
     
     
     let recipe = Recipe(name: name, coffeeWeight: coffeeWeight, steps: steps)

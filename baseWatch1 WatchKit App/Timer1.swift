@@ -11,8 +11,7 @@ import SwiftUI
 import Combine
 
 struct CurrentDateView : View {
-    //@Binding var now: Date
-    //@Binding var refNow: Date
+    
     @Binding var recipe: Recipe
     @ObjectBinding var currStep: CurrStep
     @ObjectBinding var timerData: TimerData
@@ -39,9 +38,12 @@ struct CurrentDateView : View {
     
     func endStep() {
         WKInterfaceDevice.current().play(.stop)
-        self.currStep.count += 1
-        self.timerData.now = Date()
-        self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
+        if self.currStep.count < recipe.steps.count - 1 {
+            self.currStep.count += 1
+            self.timerData.now = Date()
+            self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
+        }
+        
     }
     
     func countDownString(beg: Date, end: Date) -> Text {
