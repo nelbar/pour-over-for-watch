@@ -48,9 +48,10 @@ struct StepView: View {
             VStack {
 
                 doubleToString(number: recipe.steps[currStep.count].water)
-                
-                Text(recipe.steps[currStep.count].desc)
-                CurrentDateView(recipe: $recipe, currStep: currStep, timerData: timerData)
+                HStack {
+                    Text(recipe.steps[currStep.count].desc)
+                    CurrentDateView(recipe: $recipe, currStep: currStep, timerData: timerData)
+                }
             }
         }
           

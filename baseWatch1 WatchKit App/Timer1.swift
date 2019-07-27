@@ -56,6 +56,7 @@ struct CurrentDateView : View {
                   components.second ?? 00)
             
             return Text(viewData)
+                .fontWeight(.bold)
                 
         
         }

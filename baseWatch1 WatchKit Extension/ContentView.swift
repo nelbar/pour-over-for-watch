@@ -23,12 +23,22 @@ struct ContentView : View {
         
         VStack {
             Text(recipe.name)
+                .padding()
+                .background(Color.blue )
+                .cornerRadius(12)
+            Divider()
             
             Text("Coffee: " + String(recipe.coffeeWeight) + "g" )
+                .font(.footnote)
             Text("Water: " + String(recipe.coffeeWeight * 15.5 ) + "g" )
+                .font(.footnote)
             
+            Divider()
         
             StepView(recipe: $recipe, currStep: currStep, timerData: timerData)
+                .padding()
+                .background(Color.blue )
+                .cornerRadius(12)
         }
         
     }
