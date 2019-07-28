@@ -36,15 +36,7 @@ struct CurrentDateView : View {
         }
     }
     
-    func endStep() {
-        WKInterfaceDevice.current().play(.stop)
-        if self.currStep.count < recipe.steps.count - 1 {
-            self.currStep.count += 1
-            self.timerData.now = Date()
-            self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
-        }
-        
-    }
+    
     
     func countDownString(beg: Date, end: Date) -> Text {
         if end > beg {
@@ -64,5 +56,16 @@ struct CurrentDateView : View {
         return Text("")
     }
     
+    func endStep() {
+            WKInterfaceDevice.current().play(.stop)
+            if self.currStep.count < recipe.steps.count - 1 {
+                self.currStep.count += 1
+                self.timerData.now = Date()
+                self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
+            }
+            
+        }
     
 }
+
+

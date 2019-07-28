@@ -35,7 +35,7 @@ func BuildRecipe(name: String, coffeeWeight: Double) -> Recipe {
     
     for _ in 1...qsteps-2 {
         currWaterTotal += waterIncrement
-        step = Step(desc: "Pour", duration: 3, water: currWaterTotal)
+        step = Step(desc: "Pour", duration: 6, water: currWaterTotal)
         steps.append(step)
     }
     

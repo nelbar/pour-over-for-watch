@@ -24,16 +24,16 @@ class CurrStep: BindableObject {
 class TimerData: BindableObject {
     
     var now = Date()
-    {
-            didSet {
-                    self.willChange.send()
-                }
+{
+        didSet {
+                self.willChange.send()
+            }
         }
     var refNow = Date().addingTimeInterval(30.0) {
-                didSet {
-                        self.willChange.send()
-                    }
+        didSet {
+                self.willChange.send()
             }
+    }
     
     var willChange = PassthroughSubject<Void, Never>()
 }
@@ -45,15 +45,15 @@ struct StepView: View {
     @ObjectBinding var timerData: TimerData
     
     var body: some View {
-            VStack {
+        VStack {
 
-                doubleToString(number: recipe.steps[currStep.count].water)
-                HStack {
-                    Text(recipe.steps[currStep.count].desc)
-                    CurrentDateView(recipe: $recipe, currStep: currStep, timerData: timerData)
-                }
+            doubleToString(number: recipe.steps[currStep.count].water)
+            HStack {
+                Text(recipe.steps[currStep.count].desc)
+                CurrentDateView(recipe: $recipe, currStep: currStep, timerData: timerData)
             }
         }
+    }
           
     func doubleToString(number: Double) -> Text {
         let new = (number * 10).rounded() / 10
