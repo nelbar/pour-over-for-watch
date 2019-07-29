@@ -44,9 +44,8 @@ struct ContentView : View {
             
            
            if currStep.showTimer {
-            
-               ZStack {
-                StepView(recipe: $recipe, timerData: timerData, currStep: currStep)
+                ZStack {
+                    StepView(recipe: $recipe, timerData: timerData, currStep: currStep)
                                    .padding()
                                    .background(Color.blue )
                                    .cornerRadius(6)
@@ -62,20 +61,23 @@ struct ContentView : View {
            }
             
             Toggle(isOn: $currStep.showTimer) {
+                //self.startTimer()
                 Text(timerPrefix + " Brewing")
+                
            }
            
         }
         
     }
-    /*
-    func startTimer() -> String {
+    
+    func startTimer() -> Text {
+        currStep.count = 0
         timerData.now = Date()
         timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
         
-        return timerPrefix + " Brewing"
+        return Text(timerPrefix + " Brewing")
     }
-    */
+    
 }
 
 

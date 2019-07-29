@@ -14,8 +14,10 @@ struct CurrentDateView : View {
     
     @Binding var recipe: Recipe
     @ObjectBinding var currStep: CurrStep
-    @ObjectBinding var timerData: TimerData
+    //@ObjectBinding var timerData: TimerData
     
+    @State var startTime: Date
+    @State var endTime: Date
     
     let calendar = Calendar(identifier: .gregorian)
     let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
@@ -23,8 +25,8 @@ struct CurrentDateView : View {
     var body: some View {
         
         VStack {
-            if (timerData.refNow > timerData.now) && currStep.showTimer {
-                countDownString(beg: timerData.now, end: timerData.refNow).onReceive(timer) {_ in self.timerData.now = Date() }
+            if (endTime > startTime) && currStep.showTimer {
+                countDownString(beg: startTime, end: endTime).onReceive(timer) {_ in self.startTime = Date() }
             }
             else {
                 if currStep.showTimer {
@@ -63,8 +65,10 @@ struct CurrentDateView : View {
         WKInterfaceDevice.current().play(.stop)
         if self.currStep.count < recipe.steps.count - 1 {
             self.currStep.count += 1
-            self.timerData.now = Date()
-            self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
+            //self.timerData.now = Date()
+            startTime = Date()
+            endTime = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
+           // self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
         }
             
         

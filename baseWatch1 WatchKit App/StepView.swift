@@ -30,6 +30,8 @@ class CurrStep: BindableObject {
 
 class TimerData: BindableObject {
     
+    var willChange = PassthroughSubject<Void, Never>()
+    
     var now = Date() {
         didSet {
                 self.willChange.send()
@@ -42,8 +44,7 @@ class TimerData: BindableObject {
     }
     
     
-    var willChange = PassthroughSubject<Void, Never>()
-    
+   
     
 }
 
@@ -53,6 +54,15 @@ struct StepView: View {
     @ObjectBinding var timerData: TimerData
     @ObjectBinding var currStep: CurrStep
     
+    var startTime: Date {
+            return Date()
+        }
+        
+    var endTime: Date {
+        return Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
+    }
+       
+    
     var body: some View {
         
         VStack {
@@ -60,7 +70,7 @@ struct StepView: View {
             doubleToString(number: recipe.steps[currStep.count].water)
             HStack {
                 Text(recipe.steps[currStep.count].desc)
-                CurrentDateView(recipe: $recipe, currStep: currStep, timerData: timerData)
+                CurrentDateView(recipe: $recipe, currStep: currStep, startTime: startTime, endTime: endTime)
             }
         }
     }
