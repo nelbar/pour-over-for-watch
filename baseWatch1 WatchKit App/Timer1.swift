@@ -21,17 +21,19 @@ struct CurrentDateView : View {
     let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
 
     var body: some View {
+        
         VStack {
-            if timerData.refNow > timerData.now {
+            if (timerData.refNow > timerData.now) && currStep.showTimer {
                 countDownString(beg: timerData.now, end: timerData.refNow).onReceive(timer) {_ in self.timerData.now = Date() }
             }
             else {
-                Text("DONE" )
-                    .onAppear(perform: {
-                        self.endStep()
-                        
-                    })
-                
+                if currStep.showTimer {
+                    Text("DONE" )
+                        .onAppear(perform: {
+                            self.endStep()
+                            
+                        })
+                }
             }
         }
     }
@@ -57,15 +59,16 @@ struct CurrentDateView : View {
     }
     
     func endStep() {
-            WKInterfaceDevice.current().play(.stop)
-            if self.currStep.count < recipe.steps.count - 1 {
-                self.currStep.count += 1
-                self.timerData.now = Date()
-                self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
-            }
-            
+        
+        WKInterfaceDevice.current().play(.stop)
+        if self.currStep.count < recipe.steps.count - 1 {
+            self.currStep.count += 1
+            self.timerData.now = Date()
+            self.timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
         }
-    
+            
+        
+    }
 }
 
 

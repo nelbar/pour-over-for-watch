@@ -12,17 +12,14 @@ import Combine
 
 
 struct ContentView : View {
-    //@State private var now = Date()
-    //@State private var refNow = Date().addingTimeInterval(5.0)
     
     @State private var recipe = BuildRecipe(name: "pour over 1", coffeeWeight: 26.6)
+    //@Binding var recipe: Recipe
     @ObjectBinding var currStep: CurrStep
-    @ObjectBinding var timerData: TimerData
-    @State var visibleStep = false
-    
+    //@ObjectBinding var timerData: TimerData
     
     var timerPrefix: String {
-        if visibleStep{
+        if currStep.showTimer {
             return "Stop"
             
         }
@@ -46,11 +43,10 @@ struct ContentView : View {
             Divider()
             
            
-           
-            if visibleStep {
-                
+           if currStep.showTimer {
+            
                ZStack {
-                   StepView(recipe: $recipe, currStep: currStep, timerData: timerData)
+                   StepView(recipe: $recipe, currStep: currStep)
                                    .padding()
                                    .background(Color.blue )
                                    .cornerRadius(6)
@@ -65,15 +61,21 @@ struct ContentView : View {
                 Divider()
            }
             
-            Toggle(isOn: $visibleStep) {
+            Toggle(isOn: $currStep.showTimer) {
                 Text(timerPrefix + " Brewing")
            }
            
         }
         
     }
-    
-    
+    /*
+    func startTimer() -> String {
+        timerData.now = Date()
+        timerData.refNow = Date().addingTimeInterval(TimeInterval(recipe.steps[currStep.count].duration))
+        
+        return timerPrefix + " Brewing"
+    }
+    */
 }
 
 
@@ -81,7 +83,8 @@ struct ContentView : View {
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
         //ContentView(referenceDate: Date().addingTimeInterval(11.0))
-        ContentView(currStep: CurrStep(), timerData: TimerData())
+        //ContentView(currStep: CurrStep(), timerData: TimerData())
+        ContentView(currStep: CurrStep())
     }
 }
 #endif

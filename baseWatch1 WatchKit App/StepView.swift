@@ -11,20 +11,26 @@ import Combine
 import SwiftUI
 
 class CurrStep: BindableObject {
+    var showTimer = false {
+        didSet {
+            self.willChange.send()
+        }
+        
+    }
     var count = 0 {
         didSet {
-                self.willChange.send()
-            }
+            self.willChange.send()
+        }
     }
     
     var willChange = PassthroughSubject<Void, Never>()
     
 }
 
+
 class TimerData: BindableObject {
     
-    var now = Date()
-{
+    var now = Date() {
         didSet {
                 self.willChange.send()
             }
@@ -35,16 +41,20 @@ class TimerData: BindableObject {
             }
     }
     
+    
     var willChange = PassthroughSubject<Void, Never>()
+    
+    
 }
 
+ 
 struct StepView: View {
     @Binding var recipe: Recipe
-    
+    @ObjectBinding var timerData = TimerData()
     @ObjectBinding var currStep: CurrStep
-    @ObjectBinding var timerData: TimerData
     
     var body: some View {
+        
         VStack {
 
             doubleToString(number: recipe.steps[currStep.count].water)
