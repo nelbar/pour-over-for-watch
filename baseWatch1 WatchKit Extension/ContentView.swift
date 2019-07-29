@@ -16,7 +16,7 @@ struct ContentView : View {
     @State private var recipe = BuildRecipe(name: "pour over 1", coffeeWeight: 26.6)
     //@Binding var recipe: Recipe
     @ObjectBinding var currStep: CurrStep
-    //@ObjectBinding var timerData: TimerData
+    @ObjectBinding var timerData: TimerData
     
     var timerPrefix: String {
         if currStep.showTimer {
@@ -46,7 +46,7 @@ struct ContentView : View {
            if currStep.showTimer {
             
                ZStack {
-                   StepView(recipe: $recipe, currStep: currStep)
+                StepView(recipe: $recipe, timerData: timerData, currStep: currStep)
                                    .padding()
                                    .background(Color.blue )
                                    .cornerRadius(6)
@@ -84,7 +84,7 @@ struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
         //ContentView(referenceDate: Date().addingTimeInterval(11.0))
         //ContentView(currStep: CurrStep(), timerData: TimerData())
-        ContentView(currStep: CurrStep())
+        ContentView(currStep: CurrStep(), timerData: TimerData() )
     }
 }
 #endif

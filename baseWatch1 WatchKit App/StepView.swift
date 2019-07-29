@@ -50,7 +50,7 @@ class TimerData: BindableObject {
  
 struct StepView: View {
     @Binding var recipe: Recipe
-    @ObjectBinding var timerData = TimerData()
+    @ObjectBinding var timerData: TimerData
     @ObjectBinding var currStep: CurrStep
     
     var body: some View {
